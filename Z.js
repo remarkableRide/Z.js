@@ -18,7 +18,7 @@
     window['Z']['isCompatible'] = isCompatible;
     function $() {
         var elements = new Array();
-        for (var i; i < arguments.length; i++) {
+        for (var i = 0; i < arguments.length; i++) {
             var element = arguments[i];
             if (typeof element == 'string') {
                 element = document.getElementById(element);
@@ -65,27 +65,6 @@
         return false;
     };
     window['Z']['removeEvent'] = removeEvent;
-    function getElementsByClassName(classname, tag, parent) {
-        parent = parent || document;
-        if (!(parent = $(parent))) { return false };
-        //查找所有匹配的标签
-        var allTags = (tag == "*" && parent.all) ? parent.all : parent.getElementByTagName(tag);
-        var matchingElements = new Array();
-        //创建一个正则表达式，检测classname是否正确
-        classname = classname.replace(/\-/g, "\\-*");
-        var regex = new RegExp("(^|\\s)" + classname + "(\\s|$)");
-        var element;
-        //检查每个元素
-        for (var i = 0; i < allTags.length; i++) {
-            element = allTags[i];
-            if (regex.test(element.classname)) {
-                matchingElements.push(element);
-            }
-        }
-        //返回任何匹配得到元素
-        return matchingElements;
-    };
-    window['Z']['getElementsByClassName'] = getElementsByClassName;
     function toggleDisplay(node, value) {
         if (!(node = $(node))) { return false };
         if (node.style.display != 'none') {
@@ -100,7 +79,7 @@
         if (!(node = $(node))) { return false };
         if (!(referenceNode = $(referenceNode))) { return false };
         return referenceNode.parentNode.insertBefore(
-            node.referenceNode.nextSibling
+            node, referenceNode.nextSibling
         );
     };
     window['Z']['insertAfter'] = insertAfter;
@@ -108,7 +87,7 @@
         if (!(parent = $(parent))) { return false };
         //存在子节点时删除子节点
         while (parent.firstChild) {
-            parent.firstChild.parentNode.removeChildren(parent.firstChild);
+            parent.firstChild.parentNode.removeChild(parent.firstChild);
         }
         //再返回父元素，以便实现链式调用
         return parent;
@@ -128,4 +107,10 @@
         return parent;
     };
     window['Z']['prependChild'] = prependChild;
+    function bindFunction(obj, func) {
+        return function () {
+            func.apply(obj, arguments)
+        }
+    }
+    window['Z']['bindFunction'] = bindFunction;
 })();
