@@ -10,28 +10,28 @@
             || !Object.hasOwnProperty
             || !document.createElement
             || !document.getElementsByTagName
-            ) {
+        ) {
             return false;
-    }
-    return true;
-};
-window['Z']['isCompatible'] = isCompatible;
-function $() {
-    var elements = new Array();
-    for (var i = 0; i < arguments.length; i++) {
-        var element = arguments[i];
-        if (typeof element == 'string') {
-            element = document.getElementById(element);
         }
-        if (arguments.length == 1) {
-            return element;
+        return true;
+    };
+    window['Z']['isCompatible'] = isCompatible;
+    function $() {
+        var elements = new Array();
+        for (var i = 0; i < arguments.length; i++) {
+            var element = arguments[i];
+            if (typeof element == 'string') {
+                element = document.getElementById(element);
+            }
+            if (arguments.length == 1) {
+                return element;
+            }
+            elements.push(element);
         }
-        elements.push(element);
-    }
-    return elements
-};
-window['Z']['$'] = $;
-function addEvent(node, type, listener) {
+        return elements
+    };
+    window['Z']['$'] = $;
+    function addEvent(node, type, listener) {
         //检查兼容性保证平稳退化
         if (!isCompatible()) { return false };
         if (!(node = $(node))) { return false };
@@ -80,7 +80,7 @@ function addEvent(node, type, listener) {
         if (!(referenceNode = $(referenceNode))) { return false };
         return referenceNode.parentNode.insertBefore(
             node, referenceNode.nextSibling
-            );
+        );
     };
     window['Z']['insertAfter'] = insertAfter;
     function removeChildren(parent) {
@@ -113,26 +113,42 @@ function addEvent(node, type, listener) {
         }
     }
     window['Z']['bindFunction'] = bindFunction;
-    function getEventObject(e){
-        return e||window.event;
+    function getEventObject(e) {
+        return e || window.event;
     }
-    window['Z']['getEventObject']=getEventObject;
-    function getTarget(eventObject){
-        eventObject=eventObject||getEventObject(eventObject);
+    window['Z']['getEventObject'] = getEventObject;
+    function getTarget(eventObject) {
+        eventObject = eventObject || getEventObject(eventObject);
         //如果是W3C或IE的模型
-        var target=eventObject.target||eventObject.srcElement;
+        var target = eventObject.target || eventObject.srcElement;
         //如果是SAFARI中的文本节点
-        if(target.nodeType==1){
-            target=node.parentNode;
+        if (target.nodeType == 1) {
+            target = node.parentNode;
         }
         return target;
     }
-    window['Z']['getTarget']=getTarget;
-    function getKeyPressed (eventObject){
-      eventObject=eventObject||getEventObject(eventObject);
-      var code=eventObject.KeyCode;
-      var value=String.fromCharCode(code);
-      return { 'code':code,'value':value};
-  }
-  window['Z']['getKeyPressed']=getKeyPressed;
+    window['Z']['getTarget'] = getTarget;
+    function getKeyPressed(eventObject) {
+        eventObject = eventObject || getEventObject(eventObject);
+        var code = eventObject.KeyCode;
+        var value = String.fromCharCode(code);
+        return { 'code': code, 'value': value };
+    }
+    window['Z']['getKeyPressed'] = getKeyPressed;
+    function getClass(element) {
+        if (!(element = $(element)){ return false }
+        return element.classname.replace(/\s+/, '').split(' ');
+    }
+    window['Z']['getClass'] = getClass;
+    function hasClassName(element, classname) {
+        if (!(element = $(element))) { return false }
+        var classes = getClass(element);
+        for (var i; i < classes.length; i++) {
+            if (classname === classes[i]) {
+                return true
+            }
+            return false
+        }
+    }
+    window['Z']['hasClassName'] = hasClassName;
 })();
