@@ -10,25 +10,25 @@
             || !Object.hasOwnProperty
             || !document.createElement
             || !document.getElementsByTagName
-        ) {
+            ) {
             return false;
-        }
-        return true;
+    }
+    return true;
     };
     window['Z']['isCompatible'] = isCompatible;
     function $() {
-        var elements = new Array();
-        for (var i = 0; i < arguments.length; i++) {
-            var element = arguments[i];
-            if (typeof element == 'string') {
-                element = document.getElementById(element);
-            }
-            if (arguments.length == 1) {
-                return element;
-            }
-            elements.push(element);
+    var elements = new Array();
+    for (var i = 0; i < arguments.length; i++) {
+        var element = arguments[i];
+        if (typeof element == 'string') {
+            element = document.getElementById(element);
         }
-        return elements
+        if (arguments.length == 1) {
+            return element;
+        }
+        elements.push(element);
+    }
+    return elements
     };
     window['Z']['$'] = $;
     function addEvent(node, type, listener) {
@@ -80,7 +80,7 @@
         if (!(referenceNode = $(referenceNode))) { return false };
         return referenceNode.parentNode.insertBefore(
             node, referenceNode.nextSibling
-        );
+            );
     };
     window['Z']['insertAfter'] = insertAfter;
     function removeChildren(parent) {
@@ -136,13 +136,13 @@
     }
     window['Z']['getKeyPressed'] = getKeyPressed;
     function getClass(element) {
-        if (!(element = $(element)){ return false }
-        return element.classname.replace(/\s+/, '').split(' ');
+        if (!(element = $(element))){ return false }
+            return element.className.replace(/\s+/, '').split(' ');
     }
     window['Z']['getClass'] = getClass;
     function hasClassName(element, classname) {
         if (!(element = $(element))) { return false }
-        var classes = getClass(element);
+            var classes = getClass(element);
         for (var i; i < classes.length; i++) {
             if (classname === classes[i]) {
                 return true
@@ -151,4 +151,21 @@
         }
     }
     window['Z']['hasClassName'] = hasClassName;
+    function addClass(element,classname){
+        if(!(element=$(element))){return false}
+            element.className+=(element.className?' ':'')+classname;
+        return element;
+    }
+    window['Z']['addClass']=addClass;
+    function removeClass(element,classname){
+     if(!(element=$(element))){return false}
+         var classes=getClass(element);
+     var length=classes.length;
+     for(var i=length-1;i>=0;i--){
+        if(classes[i]===classname){delete(classes[i])}
+    }
+    element.className=classes.join(' ');
+    return element;
+    }
+    window['Z']['removeClass']=removeClass;
 })();
